@@ -1,5 +1,6 @@
 package me.dio.creditapplicationsystem.controller
 
+import jakarta.validation.Valid
 import me.dio.creditapplicationsystem.dto.CreditDto
 import me.dio.creditapplicationsystem.dto.CreditView
 import me.dio.creditapplicationsystem.dto.CreditViewList
@@ -7,12 +8,7 @@ import me.dio.creditapplicationsystem.entity.Credit
 import me.dio.creditapplicationsystem.service.impl.CreditService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.util.UUID
 import java.util.stream.Collectors
 
@@ -20,7 +16,7 @@ import java.util.stream.Collectors
 @RequestMapping("/api/credits")
 class CreditController(private val creditService: CreditService) {
     @PostMapping
-    fun saveCredit(creditDto: CreditDto): ResponseEntity<String> {
+    fun saveCredit(@RequestBody @Valid creditDto: CreditDto): ResponseEntity<String> {
         val credit: Credit = this.creditService.save(creditDto.toEntity())
         return ResponseEntity.status(HttpStatus.CREATED).body("Credit ${credit.creditCode} saved!")
     }
