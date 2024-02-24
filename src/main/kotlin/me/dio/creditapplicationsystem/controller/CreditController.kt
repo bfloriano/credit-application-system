@@ -16,9 +16,9 @@ import java.util.stream.Collectors
 @RequestMapping("/api/credits")
 class CreditController(private val creditService: CreditService) {
     @PostMapping
-    fun saveCredit(@RequestBody @Valid creditDto: CreditDto): ResponseEntity<String> {
+    fun saveCredit(@RequestBody @Valid creditDto: CreditDto): ResponseEntity<CreditView> {
         val credit: Credit = this.creditService.save(creditDto.toEntity())
-        return ResponseEntity.status(HttpStatus.CREATED).body("Credit ${credit.creditCode} saved!")
+        return ResponseEntity.status(HttpStatus.CREATED).body(CreditView(credit))
     }
 
     @GetMapping
